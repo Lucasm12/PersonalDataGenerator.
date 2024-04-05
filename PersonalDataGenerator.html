@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Dados</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+    }
+    #emails {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    #cpfs {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    #nomes {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    input[type="number"] {
+      padding: 10px;
+      font-size: 1em;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <label for="quantidade-cpf">Quantidade de CPFs:</label>
+  <input type="number" id="quantidade-cpf" min="1" value="1">
+  <button onclick="gerarCPFs()">Gerar CPFs</button>
+  <div id="cpfs"></div>
+
+  <label for="quantidade">Quantidade de Nomes e Sobrenomes:</label>
+  <input type="number" id="quantidade" min="1" value="1">
+  <button onclick="gerarNomes()">Gerar Nomes e Sobrenomes</button>
+  <div id="nomes"></div>
+
+  <label for="quantidade-email">Quantidade de Emails:</label>
+  <input type="number" id="quantidade-email" min="1" value="1">
+  <button onclick="gerarEmails()">Gerar Emails</button>
+  <div id="emails"></div>
+
+  <button onclick="limparTela()">Limpar Tela</button>
+</div>
+
+<script>
+  function gerarCPF() {
+    var cpf = '';
+    for (var i = 0; i < 9; i++) {
+      cpf += Math.floor(Math.random() * 10);
+    }
+
+    var soma = 0;
+    for (var i = 0; i < 9; i++) {
+      soma += cpf.charAt(i) * (10 - i);
+    }
+
+    var resto = 11 - (soma % 11);
+    var digito1 = resto === 10 || resto === 11 ? 0 : resto;
+
+    cpf += digito1;
+
+    soma = 0;
+    for (var i = 0; i < 10; i++) {
+      soma += cpf.charAt(i) * (11 - i);
+    }
+
+    resto = 11 - (soma % 11);
+    var digito2 = resto === 10 || resto === 11 ? 0 : resto;
+
+    cpf += digito2;
+
+    return cpf;
+  }
+
+  function gerarCPFs() {
+    var quantidade = document.getElementById('quantidade-cpf').value;
+    var cpfs = '';
+
+    for (var j = 0; j < quantidade; j++) {
+      var cpfAleatorio = gerarCPF();
+      
+      cpfs += cpfAleatorio + '<br>';
+    }
+
+    document.getElementById('cpfs').innerHTML = 'CPFs Gerados:<br>' + cpfs;
+  }
+
+  function gerarNomes() {
+    var quantidade = document.getElementById('quantidade').value;
+    var nomes = '';
+
+    var listaNomes = ["João", "Maria", "Pedro", "Ana", "Lucas", "Julia", "Mariana", "Carlos", "Camila", "Rafael"];
+    var listaSobrenomes = ["Silva", "Santos", "Oliveira", "Pereira", "Almeida", "Ferreira", "Rocha", "Gomes", "Martins", "Lima"];
+
+    for (var j = 0; j < quantidade; j++) {
+      var nomeAleatorio = listaNomes[Math.floor(Math.random() * listaNomes.length)].toUpperCase();
+      var sobrenomeAleatorio = listaSobrenomes[Math.floor(Math.random() * listaSobrenomes.length)].toUpperCase();
+      
+      nomes += nomeAleatorio + ' ' + sobrenomeAleatorio + '<br>';
+    }
+
+    document.getElementById('nomes').innerHTML = 'Nomes e Sobrenomes Gerados:<br>' + nomes;
+  }
+
+  function gerarEmails() {
+    var quantidade = document.getElementById('quantidade-email').value;
+    var emails = '';
+
+    var listaNomes = ["joao", "maria", "pedro", "ana", "lucas", "julia", "mariana", "carlos", "camila", "rafael"];
+    var listaSobrenomes = ["silva", "santos", "oliveira", "pereira", "almeida", "ferreira", "rocha", "gomes", "martins", "lima"];
+    var provedores = ["gmail.com", "hotmail.com", "yahoo.com", "outlook.com"];
+
+    for (var j = 0; j < quantidade; j++) {
+      var nomeAleatorio = listaNomes[Math.floor(Math.random() * listaNomes.length)];
+      var sobrenomeAleatorio = listaSobrenomes[Math.floor(Math.random() * listaSobrenomes.length)];
+      var provedorAleatorio = provedores[Math.floor(Math.random() * provedores.length)];
+      var email = nomeAleatorio + sobrenomeAleatorio + "@" + provedorAleatorio;
+      
+      emails += email + '<br>';
+    }
+
+    document.getElementById('emails').innerHTML = 'Emails Gerados:<br>' + emails;
+  }
+
+  function limparTela() {
+    document.getElementById('cpfs').innerHTML = '';
+    document.getElementById('nomes').innerHTML = '';
+    document.getElementById('emails').innerHTML = '';
+  }
+</script>
+
+</body>
+</html>
